@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 
-function Quote({quote}) {
+function Quote({ quote }) {
     return <div>
         <p>{quote.quote}</p>
         <p>{quote.author}</p>
-    </div>
+    </div>;
 }
 
 export default Quote;

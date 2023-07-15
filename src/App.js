@@ -1,7 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Quote from "./Quote";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 function App() {
   const [quote, setQuote] = useState({});
