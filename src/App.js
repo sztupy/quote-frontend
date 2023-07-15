@@ -18,7 +18,10 @@ function App() {
         .then((res) => res.json())
         .then((res) => setQuotes( [res] ));
     } else {
-      fetch("https://likeable-standing-beryl.glitch.me/quotes/search?term="+searchQuery)
+      let url = new URL("https://likeable-standing-beryl.glitch.me/quotes/search");
+      url.search = new URLSearchParams({ term: searchQuery }).toString();
+
+      fetch(url)
       .then((res) => res.json())
       .then((res) => setQuotes( res ));
     }
