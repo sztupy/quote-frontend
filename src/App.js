@@ -1,42 +1,37 @@
 import "./App.css";
-import QuoteList from "./QuoteList";
-import React, { useState, useEffect } from "react";
+import QuotePage from "./QuotePage";
+import AdminPage from "./AdminPage";
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import React, { useState } from "react";
 
 function App() {
-  const [quotes, setQuotes] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [quoteCount, setQuoteCount] = useState(0);
-
-  function changeQuery(query) {
-    setSearchQuery(query);
-    setQuoteCount(quoteCount + 1);
-  }
-
-  useEffect(() => {
-    if (searchQuery === "") {
-      fetch("https://likeable-standing-beryl.glitch.me/quotes/random")
-        .then((res) => res.json())
-        .then((res) => setQuotes( [res] ));
-    } else {
-      let url = new URL("https://likeable-standing-beryl.glitch.me/quotes/search");
-      url.search = new URLSearchParams({ term: searchQuery }).toString();
-
-      fetch(url)
-      .then((res) => res.json())
-      .then((res) => setQuotes( res ));
-    }
-  },[ quoteCount, searchQuery ]);
-
-  console.log(searchQuery);
+  const [token, setToken] = useState("");
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <QuoteList quotes={quotes}></QuoteList>
-        <button onClick={() => changeQuery("")}>Get new quote</button>
-        <input type="text" onChange={(e) => changeQuery(e.target.value)}></input>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Quotes</Link>
+            </li>
+            <li>
+              <Link to="/admin">Admin</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="App">
+          <header className="App-header">
+            <Routes>
+              <Route path="/" element={<QuotePage />} />
+              <Route path="/admin" element={token ? <AdminPage token={token}/> : <LoginPage setToken={setToken}/>} />
+            </Routes>
+          </header>
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
